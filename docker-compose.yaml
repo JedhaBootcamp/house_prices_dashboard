@@ -1,17 +1,19 @@
 version: '3'
 services:
   api:
+    container_name: house_prices_api
     build: ./1-api
+    image: jedha/house_prices_api
     ports:
       - "4000:4000"
     environment: 
       - PORT=4000
-      
     volumes:
       - ./1-api/aws_config:/root/.aws:rw
   client:
-    build:
-      context: ./2-client
+    container_name: house_prices_client
+    build: ./2-client
+    image: jedha/house_prices_client 
     env_file:
       - ./2-client/.env
     ports:
@@ -20,4 +22,3 @@ services:
       - ./2-client:/home/app
     depends_on:
       - "api"
-    
