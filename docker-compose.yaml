@@ -1,0 +1,23 @@
+version: '3'
+services:
+  api:
+    build: ./1-api
+    ports:
+      - "4000:4000"
+    environment: 
+      - PORT=4000
+      
+    volumes:
+      - ./1-api/aws_config:/root/.aws:rw
+  client:
+    build:
+      context: ./2-client
+    env_file:
+      - ./2-client/.env
+    ports:
+      - "3050:3000"
+    volumes:
+      - ./2-client:/home/app
+    depends_on:
+      - "api"
+    
